@@ -1,4 +1,4 @@
-/*! videojs-markers - v0.6.1 - 2016-10-24
+/*! videojs-markers - v0.7.0 - 2016-12-19
 * Copyright (c) 2016 ; Licensed  */
 'use strict';
 
@@ -13,7 +13,10 @@
     markerTip: {
       display: true,
       text: function text(marker) {
-        return "Break: " + marker.text;
+        return marker.text;
+      },
+      html: function html(marker) {
+        return marker.html ? marker.html : marker.text;
       },
       time: function time(marker) {
         return marker.time;
@@ -23,7 +26,7 @@
       display: false,
       displayTime: 3,
       text: function text(marker) {
-        return "Break overlay: " + marker.overlayText;
+        return marker.overlayText;
       },
       style: {
         'width': '100%',
@@ -55,6 +58,7 @@
     /**
      * register the markers plugin (dependent on jquery)
      */
+    console.log("initing MARKERS plugin");
 
     var setting = $.extend(true, {}, defaultSetting, options),
         markersMap = {},
@@ -175,7 +179,11 @@
         var marker = markersMap[$(markerDiv).data('marker-key')];
 
         if (!!markerTip) {
-          markerTip.find('.vjs-tip-inner').text(setting.markerTip.text(marker));
+          if (marker.html) {
+            markerTip.find('.vjs-tip-inner').html(setting.markerTip.html(marker));
+          } else {
+            markerTip.find('.vjs-tip-inner').text(setting.markerTip.text(marker));
+          }
 
           // margin-left needs to minus the padding length to align correctly with the marker
           markerTip.css({
@@ -183,6 +191,19 @@
             "margin-left": -parseFloat(markerTip.width()) / 2 - 5 + 'px',
             "visibility": "visible"
           });
+
+          //second call to detect better image size
+          var fnSetCorrectPosition = function fnSetCorrectPosition() {
+            markerTip.css({
+              "left": getPosition(marker) + '%',
+              "margin-left": -parseFloat(markerTip.width()) / 2 - 5 + 'px'
+            });
+          };
+          setTimeout(fnSetCorrectPosition, 50);
+          setTimeout(fnSetCorrectPosition, 100);
+          setTimeout(fnSetCorrectPosition, 200);
+          setTimeout(fnSetCorrectPosition, 300);
+          setTimeout(fnSetCorrectPosition, 400);
         }
       });
 

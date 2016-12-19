@@ -20,11 +20,13 @@
 .vjs-tip {
   visibility: hidden;
   display: block;
-  opacity: 0.8;
+  /*opacity: 0.8;*/
+  opacity: 1;
   padding: 5px;
   font-size: 10px;
   position: absolute;
-  bottom: 14px;
+  /*bottom: 14px;*/
+  bottom: 11px;
   z-index: 100000;
 }
 .vjs-tip .vjs-tip-arrow {
@@ -46,6 +48,9 @@
   color: white;
   max-width: 200px;
   text-align: center;
+}
+.vjs-tip .vjs-tip-inner img {
+  max-width: 180px;
 }
 .vjs-break-overlay {
   visibility: hidden;
